@@ -1,4 +1,6 @@
 'use strict';
+
+
 const postData = async (url, data) => {
 	const res = await fetch(url, {
 		method: 'POST',
@@ -7,11 +9,26 @@ const postData = async (url, data) => {
 		},
 		body: data
 	});
-	return await res.json();
+	return await res.text();
 };
 
-const el = (selector) => document.querySelector(selector);
 
+postData("index.php", JSON.stringify({ load: true }))
+	.then(({ result }) => {
+		if (result) {
+			document.location.href = 'main.html';
+		}
+	});
+
+
+const el = (selector) => document.querySelector(selector);
+function switchViewForgot() {
+	toggleClass(el(".form-signin"), "form-signin-left");
+	toggleClass(el(".form-forgot"), "form-forgot--active");
+	toggleClass(el(".forgot"), "forgot-left");
+	toggleClass(el(".nav"), "nav-up");
+	toggleClass(el(".frame"), "frame-small");
+}
 function toggleClass(elem, classToggle) {
 	elem.classList.toggle(classToggle);
 }
@@ -21,6 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		const btn = document.querySelectorAll('.btn');
 		const signInBtn = el('.btn-signin');
 		const signUpBtn = el('.btn-signup');
+		const forgotBtn = el('.forgot > a');
+		const backForgot = el('.back');
 
 		btn.forEach(item => {
 			item.addEventListener('click', () => {
@@ -38,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 			});
 		});
+
+		forgotBtn.addEventListener('click', switchViewForgot);
+		backForgot.addEventListener('click', switchViewForgot);
 
 
 		signUpBtn.addEventListener('click', (e) => {
@@ -208,5 +230,31 @@ document.addEventListener("DOMContentLoaded", () => {
 		toggleClass(el(".forgot"), "forgot-fade");
 	}
 
+	const btnForgot = el('.btn-forgot');
+	btnForgot.addEventListener('click', (e) => {
+		e.preventDefault();
+		forgotPassword();
+	});
+
+	function forgotPassword() {
+		const formSignIn = el('.form-forgot');
+		const elMsgForm = el('.sign__forgot-fail');
+
+		if (validationForm(formSignIn)) {
+
+			const json = formDataToJson(formSignIn);
+			console.log(json);
+
+			postData('index.php', json)
+				.then(data => console.log(data)
+				);
+			// .then(({ result }) => {
+			// 	elMsgForm.textContent = result ? "Пароль успешно отправлен на Вашу почту!"
+			// 		: "К сожалению такого пользователя не существует";
+			// }).catch(err => {
+			// 	elMsgForm.textContent = err;
+			// });
+		}
+	}
 
 });

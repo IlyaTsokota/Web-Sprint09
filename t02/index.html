@@ -71,16 +71,28 @@
 				</div>
 			</div>
 
-			<div class="forgot">
+			<form class="forgot">
 				<a href="#">Forgot your password?</a>
-			</div>
+			</form>
 
 			<div>
 				<div class="cover-photo"></div>
 				<div class="profile-photo"></div>
 				<h1 class="welcome">Welcome, Chris</h1>
-				<a class="btn-goback " value="Refresh">To Home Page</a>
+				<a class="btn-goback" href="main.html" value="Refresh">To Home Page</a>
 			</div>
+
+			<form class="form-forgot" method="post">
+				<input type="hidden" name="forgot">
+				<label for="email">Email</label>
+				<input class="form-styling" type="text" name="email" placeholder="" />
+				<p class="password__valid  hide">Пароль ненадежен!</p>
+
+				<button type="submit" class="btn-forgot">Send Password</button>
+				<p class="password__valid sign__forgot-fail"></p>
+
+				<a href="#" class="back">Back</a>
+			</form>
 		</div>
 
 		<a id="refresh" value="Refresh" onClick="history.go()">

@@ -98,6 +98,7 @@ class Users extends Model
 
 		return true;
 	}
+	
 }
 
 ?>

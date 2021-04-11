@@ -21,11 +21,23 @@ if (isset($_POST['password']) && isset($_POST['login']) && isset($_POST['form_lo
 
 if (isset($_POST['load'])){
 	echo json_encode(
-		array('result' => $_SESSION["is_admin"])
+		array('result' => isset($_SESSION["user_id"]))
 	);
 }
 
 
+if (isset($_POST['isadmin'])){
+	echo json_encode(
+		array('result' => $_SESSION["is_admin"])
+	);
+}
+
+if (isset($_POST['clear'])){
+	session_destroy();
+	echo json_encode(
+		array('result' => 'OK')
+	);
+}
 
 function create_user($login, $password, $name, $email,){
 	$user = new Users('users');
@@ -42,13 +54,7 @@ function create_user($login, $password, $name, $email,){
 
 function login($login, $password){
 	$user = new Users('users');
-	$res = false;
-	
-	if($user->sign_in($login, $password)){
-		$res = true;
-	}
-
 	echo json_encode(
-		array('result' => $res)
+		array('result' => $user->sign_in($login, $password))
 	);
 }

@@ -1,4 +1,10 @@
 'use strict';
+
+
+
+
+
+
 const postData = async (url, data) => {
 	const res = await fetch(url, {
 		method: 'POST',
@@ -9,6 +15,15 @@ const postData = async (url, data) => {
 	});
 	return await res.json();
 };
+
+
+postData("index.php", JSON.stringify({ load: true }))
+	.then(({ result }) => {
+		if (result) {
+			document.location.href = 'main.html';
+		}
+	});
+
 
 const el = (selector) => document.querySelector(selector);
 
